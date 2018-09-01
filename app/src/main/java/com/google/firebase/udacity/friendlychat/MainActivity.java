@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         //Not doing this wil result in a bug
         //with same messages showing up again when activity resumes
         mMessageAdapter.clear();
-        detachdatabaseReadListener();
+        detachDatabaseReadListener();
     }
 
     @Override
@@ -205,6 +205,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out_menu:
+                AuthUI.getInstance().signOut(this);
+            default:
+                super.onOptionsItemSelected(item);
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -216,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     private void onSignedOutCleanup() {
         mUsername = ANONYMOUS;
         mMessageAdapter.clear();
-        detachdatabaseReadListener();
+        detachDatabaseReadListener();
     }
 
     private void attachDatabaseReadListener() {
@@ -253,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void detachdatabaseReadListener() {
+    private void detachDatabaseReadListener() {
         if (mChildEventListener != null) {
             mMessagesDatabaseReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
